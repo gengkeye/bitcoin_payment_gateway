@@ -1,5 +1,13 @@
 # Load the Rails application.
-require File.expand_path('../application', __FILE__)
+require_relative 'application'
+
+env_file = Rails.root.join("config", 'environments.yml').to_s
+
+if File.exists?(env_file)
+  YAML.load_file(env_file)[Rails.env].each do |key, value|
+    ENV[key.to_s] = value
+  end
+end
 
 # Initialize the Rails application.
 Rails.application.initialize!

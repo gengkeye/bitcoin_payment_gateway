@@ -1,9 +1,4 @@
-development:
-  SECRET_KEY_BASE:
-  STRAIGHT_SERVER_PATH: '~/workspace/straight'
-staging:
-  SECRET_KEY_BASE:
-
 production:
-  SECRET_KEY_BASE: '~/app/straight'
+  SECRET_KEY_BASE: ad81de8deec2af6b2269bd118ab907c01fa0ff50aed6d10789bcca58843f887f7498fa9c1ec6ed04ae4ceca2918d99123266526eea1fe1e4b2df03ec07dd1fdb
+  MYSQL_ROOT_PASSWD: 'Redhat2008'
 
