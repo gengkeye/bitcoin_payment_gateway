@@ -34,7 +34,7 @@ server '10.8.7.230', user: 'oldseven', roles: %w(app web db), other_property: :o
 
 set :branch, 'master'
 set :rails_env, 'master'
-set :deploy_to, "/hoem/oldseven/app/#{ fetch(:application) }"
+set :deploy_to, "/home/oldseven/app/#{ fetch(:application) }"
 
 set :sidekiq_monit_conf_dir, '/etc/monit.d'
 set :sidekiq_monit_use_sudo, false
