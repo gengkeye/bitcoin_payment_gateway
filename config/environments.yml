@@ -1,0 +1,9 @@
+development:
+  SECRET_KEY_BASE:
+  STRAIGHT_SERVER_PATH: '~/workspace/straight'
+staging:
+  SECRET_KEY_BASE:
+
+production:
+  SECRET_KEY_BASE: '~/app/straight'
+
