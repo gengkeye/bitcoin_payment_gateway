@@ -33,7 +33,7 @@ server '10.8.7.230', user: 'oldseven', roles: %w(app web db), other_property: :o
 # Feel free to add new variables to customise your setup.
 
 set :branch, 'master'
-set :rails_env, 'master'
+set :rails_env, 'production'
 set :deploy_to, "/home/oldseven/app/#{ fetch(:application) }"
 
 set :sidekiq_monit_conf_dir, '/etc/monit.d'
