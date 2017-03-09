@@ -53,5 +53,5 @@ group :development, :test do
 end
 
 group :production do
-  gem 'straight-server', path: '~/app/straight-server'
+  gem 'straight-server'
 end
