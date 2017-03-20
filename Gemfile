@@ -56,8 +56,6 @@ gem 'httparty'
 gem 'excon'
 gem "typhoeus"
 
-gem 'faraday'
-
 gem 'rqrcode'
 gem 'rqrcode_png'
 

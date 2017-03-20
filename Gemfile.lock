@@ -337,7 +337,6 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   excon
   execjs
-  faraday
   httparty
   jbuilder (~> 2.0)
   jquery-rails
