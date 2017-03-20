@@ -5,8 +5,14 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'payments#index'
+  resources :payments, only: [:index, :update, :create] do
+    collection do
+      get 'invoice'
+    end
+  end
 
-  resources :payments, only: [:index, :show]
+  # pure show qr_code image, which maybe can be extract as a microservice later
+  resources :qr_code, only: :show, id: %r{.+}
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

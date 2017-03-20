@@ -38,11 +38,34 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'straight-server-kit'
 
+gem 'x-signature'
+
 gem 'puma'
+
+gem 'bootstrap-sass', '~> 3.3.6'
+
+gem 'redis', '~> 3.3.1'
+
+# Map Redis types directly to Ruby objects. Works with any class or ORM.
+gem 'redis-objects', '~> 1.2.1'
+
+# Simple, efficient background processing for Ruby.https://github.com/mperham/sidekiq
+gem 'sidekiq'
+
+gem 'httparty'
+gem 'excon'
+gem "typhoeus"
+
+gem 'faraday'
+
+gem 'rqrcode'
+gem 'rqrcode_png'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+
+  gem 'pry-rails'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 

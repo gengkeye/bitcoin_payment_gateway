@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bitapp</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+	<title>Bitapp</title>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
+	<link rel="stylesheet" media="screen" href="//fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700&amp;subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic" />
+	<link rel="stylesheet" media="screen" href="https://dwsv3vn9of50v.cloudfront.net/assets/vendor/pure-grids-responsive-old-ie-min-c567d92b689302c52fde0f00532a8627f166a7e4389be6c7e2d6d681bb5665bf.css" />
+	<link rel="stylesheet" media="screen" href="https://dwsv3vn9of50v.cloudfront.net/assets/vendor/pure-grids-responsive-min-5a78a0828a2643c176530677d88bd5cbd9fd38f6d41acea2a5e867fa1be431a8.css" />
+	<link rel="stylesheet" media="all" href="https://dwsv3vn9of50v.cloudfront.net/assets/landing-9dd1b4290f243b04b5a2601c59fe6a7d4cccca7d4b89dcd54af4b5dbbf1a6d14.css" />
+	<script src="https://dwsv3vn9of50v.cloudfront.net/assets/landing-f1b282b1d9304327f11ba8bc9beddb891ed5717d1f086eac4742dc8576ebfb64.js"></script>
+	<script src="https://gateway.gear.mycelium.com/gear-widget-host.js"></script>
 </head>
 <body>
-
 <%= yield %>
-
 </body>
 </html>
