@@ -54,7 +54,7 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   require 'syslog_logger'
 
-  config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new('bitcoin_payment_gateway'))
+  config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
