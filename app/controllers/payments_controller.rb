@@ -37,9 +37,10 @@ class PaymentsController < ApplicationController
     # uncomnent this on development environment.
   	# @amount , @address, @tid = 1, "afjwDAoejrfasejfDEuexworAEQ", 1
     # render :invoice and return
-
-  	redirect_to referer if params[:amount].blank? || params[:user_uid].blank?
-  	res = HTTParty.get('http://localhost:9696/gateways/1/last_keychain_id')
+    res = HTTParty.get('http://localhost:9696/gateways/1/last_keychain_id')
+  	if params[:amount].blank? || params[:user_uid].blank? || res.blank?
+      request.referer.blank? ? render "ERROR" : redirect_to request.referer
+    end
   	order = StraightServerKit::Order.new(amount: params[:amount] || 1, callback_data: params[:order_uid] || 1, keychain_id: JSON.parse(res)['last_keychain_id'] + 1)
     @order = @client.orders.create(order)
     @amount = params[:amount].to_f
