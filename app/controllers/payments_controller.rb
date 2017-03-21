@@ -37,9 +37,13 @@ class PaymentsController < ApplicationController
     # uncomnent this on development environment.
   	# @amount , @address, @tid = 1, "afjwDAoejrfasejfDEuexworAEQ", 1
     # render :invoice and return
-    res = HTTParty.get('http://localhost:9696/gateways/1/last_keychain_id')
-  	if params[:amount].blank? || params[:user_uid].blank? || res.blank?
-      request.referer.blank? ? render "ERROR" : redirect_to request.referer
+    begin
+      res = HTTParty.get('http://localhost:9696/gateways/1/last_keychain_id')
+    rescue Exception => e
+      return render plain: "DATA ERROR!"
+    end
+  	if params[:amount].blank? || params[:user_uid].blank?
+      request.referer.blank? ? (return render "ERROR") : (return redirect_to request.referer)
     end
   	order = StraightServerKit::Order.new(amount: params[:amount] || 1, callback_data: params[:order_uid] || 1, keychain_id: JSON.parse(res)['last_keychain_id'] + 1)
     @order = @client.orders.create(order)
@@ -48,8 +52,8 @@ class PaymentsController < ApplicationController
     render :invoice and return
   end
 
-  def validate_callback
-  	if StraightServerKit.valid_callback?(signature: ENV['HTTP_X_SIGNATURE'], request_uri: (URI(ENV['REQUEST_URI']).request_uri rescue ENV['REQUEST_URI']), secret: ENV['SECRET_KEY_BASE'])
-  	end
-  end
+  # def validate_callback
+  # 	if StraightServerKit.valid_callback?(signature: ENV['HTTP_X_SIGNATURE'], request_uri: (URI(ENV['REQUEST_URI']).request_uri rescue ENV['REQUEST_URI']), secret: ENV['SECRET_KEY_BASE'])
+  # 	end
+  # end
 end
