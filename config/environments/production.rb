@@ -52,7 +52,9 @@ Rails.application.configure do
   config.log_tags = [ :subdomain, :uuid ]
 
   # Use a different logger for distributed setups.
-  config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  require 'syslog_logger'
+
+  config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new('bitcoin_payment_gateway'))
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store

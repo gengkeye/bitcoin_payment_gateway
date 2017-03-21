@@ -9,5 +9,7 @@ if File.exists?(env_file) && (env_hash = YAML.load_file(env_file)[Rails.env]).pr
   end
 end
 
+config.gem "cpowell-SyslogLogger", :source=>'http://gems.github.com', :lib=>'syslog_logger'
+
 # Initialize the Rails application.
 Rails.application.initialize!
