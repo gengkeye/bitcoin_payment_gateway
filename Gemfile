@@ -55,6 +55,7 @@ gem 'sidekiq'
 gem 'httparty'
 gem 'excon'
 gem "typhoeus"
+gem 'syslogger'
 
 gem 'rqrcode'
 gem 'rqrcode_png'
