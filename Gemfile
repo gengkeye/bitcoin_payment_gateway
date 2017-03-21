@@ -56,7 +56,7 @@ gem 'httparty'
 gem 'excon'
 gem "typhoeus"
 gem 'syslogger'
-
+gem "cpowell-SyslogLogger"
 gem 'rqrcode'
 gem 'rqrcode_png'
 

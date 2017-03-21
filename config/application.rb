@@ -22,7 +22,6 @@ module Bitapp
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-    config.gem "cpowell-SyslogLogger", :source=>'http://gems.github.com', :lib=>'syslog_logger'
 
   end
 end
