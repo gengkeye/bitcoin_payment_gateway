@@ -14,7 +14,6 @@ class PaymentsController < ApplicationController
  #  					  'X-Nonce' => nonce,
  #  					  'X-Client' => 1 })
   def initialize
-    binding.pry
     @client = StraightServerKit::Client.new(gateway_id: 1, secret: ENV['STRAIGHT_SERVER_SECRET'], url: 'http://localhost:9696/')
     super
   end
