@@ -23,7 +23,7 @@ class PaymentsController < ApplicationController
 
   def create
     begin
-      res = HTTParty.get('http://localhost:9696/gateways/1/last_keychain_id')
+      res = HTTParty.get(ENV['STRAIGHT_SERVER_URL'] + '/gateways/1/last_keychain_id')
     rescue Exception => e
       return render plain: "DATA ERROR!"
     end
