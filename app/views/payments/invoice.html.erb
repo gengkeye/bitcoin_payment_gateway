@@ -10,18 +10,18 @@
                 <tr>
                   <td class="qrcode">
                     <p class="tapOrClickCaption">Tap or scan</p>
-                    <img src="<%= qr_code_path(id: CGI.escape("bitcoin:#{ @address}?amount=#{@amount}")) %>">
+                    <img src="<%= qr_code_path(id: CGI.escape("bitcoin:#{ @order.address}?amount=#{@amount}")) %>">
                   </td>
                 </tr>
                 <tr>
                   <td class="info">
                     <p class="pleaseDeposit">
-                      <b class="amount">1.</b>
+                      <b class="amount"><%= @amount %></b>
                       BTC
                       <br>
                       will be sent to the bitcoin address below:
                     </p>
-                    <textarea class="depositAddressString" readonly=""><%= @address %></textarea>
+                    <textarea class="depositAddressString" readonly=""><%= @order.address %></textarea>
                   </td>
                 </tr>
                 <tr>
@@ -50,7 +50,7 @@
 $(function(){
   $("#cancel_order").click(function(){
     $.ajax({
-      url: "<%= payment_path(id: @tid) %>",
+      url: "<%= payment_path(id: @order.id ) %>",
       type: 'patch',
       dataType: 'jsonp'
     })
