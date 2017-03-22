@@ -31,7 +31,10 @@ set :puma_config_file, 'config/puma-web.rb'
 
 ## Linked Files & Directories (Default None):
 set :linked_files, %w{config/database.yml config/environments.yml config/secrets.yml}
-set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets }
+set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets }
+
+# in order to prevent bundler from overwriting the version controlled binstubs
+set :bundle_binstubs, nil
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
