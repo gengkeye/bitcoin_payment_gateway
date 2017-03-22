@@ -2,10 +2,12 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.0.1'
+# gem 'rails', '5.0.0.1'
+gem 'rails', '~> 5.0.2'
+
 # Use sqlite3 as the database for Active Record
 # payment gateway server
-gem 'straight-server', git: 'git@git.nn.com:oldseven/straight-server.git', branch: :master
+# gem 'straight-server', git: 'git@git.nn.com:oldseven/straight-server.git', branch: :master
 
 gem 'mysql2'
 # Use SCSS for stylesheets
@@ -59,6 +61,9 @@ gem 'syslogger'
 gem "cpowell-SyslogLogger"
 gem 'rqrcode'
 gem 'rqrcode_png'
+gem 'btcruby', '~>1.6'
+
+gem 'web-console', group: :development
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -66,7 +71,6 @@ group :development, :test do
 
   gem 'pry-rails'
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
