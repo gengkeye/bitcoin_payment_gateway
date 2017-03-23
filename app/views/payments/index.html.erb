@@ -1,4 +1,3 @@
-<%= hidden_field_tag :uid, params[:uid] %>
 <section class='landing widgets'>
 	<div>
 		<h2><strong>Pay with Bitcoin</strong></h2>
@@ -6,6 +5,7 @@
 			<div>
 				<div class='columnContainer'>
 					<%= form_tag payments_path, method: :post, remote: true, format: 'js',  authenticity_token: true, id: 'btc_form' do %>
+					  <%= hidden_field_tag :uid, params[:uid] %>
 					  <p><input type="text" name="amount" placeholder="BTC" id="amount_input"></p>
 					  <button type="button" class="button_pay">Pay</button>
 					<% end %>
