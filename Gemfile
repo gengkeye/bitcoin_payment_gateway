@@ -42,8 +42,6 @@ gem 'straight-server-kit'
 
 gem 'x-signature'
 
-gem 'puma'
-
 gem 'bootstrap-sass', '~> 3.3.6'
 
 gem 'redis', '~> 3.3.1'
@@ -64,11 +62,11 @@ gem 'rqrcode_png'
 gem 'btcruby', '~>1.6'
 
 gem 'web-console', group: :development
-gem 'pry-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry-rails'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
 
@@ -82,4 +80,6 @@ group :development, :test do
 end
 
 group :production do
+  gem 'puma', platform: :ruby
+  gem 'exception_notification'
 end

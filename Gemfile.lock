@@ -95,6 +95,9 @@ GEM
     erubis (2.7.0)
     ethon (0.10.1)
       ffi (>= 1.3.0)
+    exception_notification (4.2.1)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     excon (0.55.0)
     execjs (2.7.0)
     faraday (0.9.2)
@@ -264,6 +267,7 @@ DEPENDENCIES
   capistrano3-puma
   coffee-rails (~> 4.1.0)
   cpowell-SyslogLogger
+  exception_notification
   excon
   execjs
   httparty
