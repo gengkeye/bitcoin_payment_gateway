@@ -1,11 +1,11 @@
+<%= hidden_field_tag :uid, params[:uid] %>
 <section class='landing widgets'>
-	<div class='contentHero'>
+	<div>
 		<h2><strong>Pay with Bitcoin</strong></h2>
-		<div class='pure-g widgetsContainer'>
-			<div class='pure-u-1 pure-u-sm-1-2'>
+		<div>
+			<div>
 				<div class='columnContainer'>
-					<%= form_tag payments_path, id: 'btc_form', authenticity_token: true, remote: true, multipart: true do %>
-					  <%= hidden_field_tag :user_uid, params[:user_uid] || 1 %>
+					<%= form_tag payments_path, method: :post, remote: true, format: 'js',  authenticity_token: true, id: 'btc_form' do %>
 					  <p><input type="text" name="amount" placeholder="BTC" id="amount_input"></p>
 					  <button type="button" class="button_pay">Pay</button>
 					<% end %>
@@ -15,10 +15,9 @@
 	</div>
 </section>
 <footer class='dark loaderReveal loaderRevealDelay1000 loaderRevealSpeed600'>
-	<div class='copyright'> A product of ninety-nine &copy; 2017</div>	
+	<div class='copyright'> A product of skyluster &copy; 2017</div>	
 </footer>
-
-
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 <script>
 $(function(){
 	$('.button_pay').click(function(){
