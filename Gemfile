@@ -60,7 +60,7 @@ gem "cpowell-SyslogLogger"
 gem 'rqrcode'
 gem 'rqrcode_png'
 gem 'btcruby', '~>1.6'
-
+gem 'countdown'
 gem 'web-console', group: :development
 
 group :development, :test do

@@ -22,7 +22,7 @@
       <tr>
         <td class="timeLeft">
           Order expires in
-          <b class="value" data-time-left="900">00:15:00</b>
+          <b class="value" data-time-left="900"><%= countdown 15.minutes, unit: [:hours, :minutes, :seconds] %></b>
         </td>
       </tr>
       <tr>
