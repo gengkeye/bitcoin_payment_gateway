@@ -30,7 +30,7 @@ class PaymentsController < ApplicationController
         return render :failed, locals: { error_info: "ERROR: lack of params." }
       end
 
-      order = StraightServerKit::Order.new(amount: params[:amount], callback_data: params[:uid], keychain_id: last_keychain_id + 1)
+      order = StraightServerKit::Order.new(amount: params[:amount], callback_data: params[:uid]) # , keychain_id: last_keychain_id + 1
       @order = @client.orders.create(order)
       @amount = params[:amount].to_f
       return render :success
