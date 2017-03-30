@@ -24,8 +24,9 @@ class PaymentsController < ApplicationController
   def create
     begin
       # res = HTTParty.get(ENV['STRAIGHT_SERVER_URL'] + 'gateways/1/last_keychain_id')
-      res = Excon.get(ENV['STRAIGHT_SERVER_URL'] + 'gateways/1/last_keychain_id')[:body]
-      last_keychain_id = JSON.parse(res)['last_keychain_id'].to_i
+      # res = Excon.get(ENV['STRAIGHT_SERVER_URL'] + 'gateways/1/last_keychain_id')[:body]
+      # last_keychain_id = JSON.parse(res)['last_keychain_id'].to_i
+
       if params[:amount].blank? || params[:uid].blank?
         return render :failed, locals: { error_info: "ERROR: lack of params." }
       end
