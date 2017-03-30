@@ -1,11 +1,10 @@
-
 <div class="gray new paymentInfo" style="display: block;">
   <table>
     <tbody>
       <tr>
         <td class="qrcode">
           <p class="tapOrClickCaption">Tap or scan</p>
-          <img src="<%= qr_code_path(id: CGI.escape("bitcoin:#{ @order.address}?amount=#{@amount}")) %>">
+          <img src="<%= qr_code_path(id: CGI.escape("bitcoin:#{ @order&.address}?amount=#{@amount}")) %>">
         </td>
       </tr>
       <tr>
@@ -16,13 +15,13 @@
             <br>
             will be sent to the bitcoin address below:
           </p>
-          <textarea class="depositAddressString" readonly=""><%= @order.address %></textarea>
+          <textarea class="depositAddressString" readonly="" ><%= @order&.address %></textarea>
         </td>
       </tr>
       <tr>
         <td class="timeLeft">
           Order expires in
-          <b class="value" data-time-left="900"><%= countdown 15.minutes, unit: [:hours, :minutes, :seconds] %></b>
+          <b class="value" data-time-left="900"><div id="defaultCountdown"></div></b>
         </td>
       </tr>
       <tr>
@@ -37,15 +36,4 @@
   </table>
 </div>
 
-<script type="text/javascript">
-$(function(){
-  $("#cancel_order").click(function(){
-    $.ajax({
-      url: "<%= payment_path(id: @order.id ) %>",
-      type: 'patch',
-      data: { uid: "<%= params[:uid] %>"}
-      dataType: 'jsonp'
-    })
-  })
-})
-</script>
+

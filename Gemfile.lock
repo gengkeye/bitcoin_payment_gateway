@@ -87,8 +87,6 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
-    countdown (0.1.0)
-      json
     cpowell-SyslogLogger (1.4.1)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
@@ -268,7 +266,6 @@ DEPENDENCIES
   capistrano-rvm
   capistrano3-puma
   coffee-rails (~> 4.1.0)
-  countdown
   cpowell-SyslogLogger
   exception_notification
   excon

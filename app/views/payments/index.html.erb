@@ -18,9 +18,9 @@
 	<div class='copyright'> A product of skyluster &copy; 2017</div>	
 </footer>
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-<%= javascript_include_tag 'countdown' %>
+<%= stylesheet_link_tag    'jquery.countdown', media: 'all', 'data-turbolinks-track' => true %>
+
 <script>
-$(function(){
 	$('.button_pay').click(function(){
 		var amount = parseFloat($('#amount_input').val());
 		if(/^[+-]?\d+(\.\d+)?$/.test(amount)){
@@ -29,5 +29,18 @@ $(function(){
 			alert("Please insert correct amount.")
 		}
 	})
-})
+	function start_to_countdown(){
+	  var num = Date.now() + 15*60*1000;
+	  var target_time = new Date(num);
+	  $('#defaultCountdown').countdown({until: target_time, compact: true, description: '', format: 'HMS'});
+	}
+
+	$("#cancel_order").click(function(){
+	   $.ajax({
+	      url: "<%= payment_path(id: @order&.id || 1 ) %>",
+	      type: 'patch',
+	      data: { uid: "<%= params[:uid] %>"},
+	      dataType: 'jsonp'
+	   })
+	})
 </script>
