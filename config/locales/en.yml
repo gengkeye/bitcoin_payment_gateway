@@ -20,4 +20,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  straight_server:
+    title: 'Pay with Bitcoin'
+    pay_button: 'Pay'
+    qr_code_title: 'Scan'
+    qr_code_description: 'to the bitcoin address below:'
+    send: 'Send'
+    receive: 'Receive'
+    expire: 'Order expires in'
+    cancel_order: 'Cancel Order'

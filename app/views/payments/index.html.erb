@@ -1,13 +1,15 @@
 <section class='landing widgets'>
 	<div>
-		<h2><strong>Pay with Bitcoin</strong></h2>
+		<h2><strong><%= I18n.t("straight_server.title")%></strong></h2>
 		<div>
 			<div>
 				<div class='columnContainer'>
 					<%= form_tag payments_path, method: :post, remote: true, format: 'js',  authenticity_token: true, id: 'btc_form' do %>
 					  <%= hidden_field_tag :uid, params[:uid] %>
-					  <p><input type="text" name="amount" placeholder="BTC" id="amount_input"></p>
-					  <button type="button" class="button_pay">Pay</button>
+					  <p><input type="text" name="amount" placeholder="BTC" id="amount_input_btc"> 
+					  	 <=> 
+					  	 <input type="text" name="amount" placeholder="CNY" id="amount_input_cny"></p>
+					  <button type="button" class="button_pay"><%= I18n.t("straight_server.pay_button") %></button>
 					<% end %>
 				</div>
 			</div>
@@ -15,14 +17,14 @@
 	</div>
 </section>
 <footer class='dark loaderReveal loaderRevealDelay1000 loaderRevealSpeed600'>
-	<div class='copyright'> A product of skyluster &copy; 2017</div>	
+	<div class='copyright'> A product of skyluster &copy; 2017</div>
 </footer>
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 <%= stylesheet_link_tag    'jquery.countdown', media: 'all', 'data-turbolinks-track' => true %>
 
 <script>
 	$('.button_pay').click(function(){
-		var amount = parseFloat($('#amount_input').val());
+		var amount = parseFloat($('#amount_input_btc').val());
 		if(/^[+-]?\d+(\.\d+)?$/.test(amount)){
 			$('#btc_form').submit();
 		}else{

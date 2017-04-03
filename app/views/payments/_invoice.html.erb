@@ -3,24 +3,23 @@
     <tbody>
       <tr>
         <td class="qrcode">
-          <p class="tapOrClickCaption">Tap or scan</p>
+          <p class="tapOrClickCaption"><%= I18n.t("straight_server.qr_code_title") %></p>
           <img src="<%= qr_code_path(id: CGI.escape("bitcoin:#{ @order&.address}?amount=#{@amount}")) %>">
         </td>
       </tr>
       <tr>
         <td class="info">
           <p class="pleaseDeposit">
-            <b class="amount"><%= @amount %></b>
-            BTC
-            <br>
-            will be sent to the bitcoin address below:
+            <%= I18n.t("straight_server.send") %>
+            <b class="amount"><%= @amount %>BTC</b>
+            <%= I18n.t("straight_server.qr_code_description") %>
           </p>
           <textarea class="depositAddressString" readonly="" ><%= @order&.address %></textarea>
         </td>
       </tr>
       <tr>
         <td class="timeLeft">
-          Order expires in
+          <%= I18n.t("straight_server.expire") %>
           <b class="value" data-time-left="900"><div id="defaultCountdown"></div></b>
         </td>
       </tr>
@@ -29,7 +28,7 @@
       </tr>
       <tr>
         <td class="cancel">
-          <a href="#" id="cancel_order">Cancel Order</a>
+          <a href="#" id="cancel_order"><%= I18n.t("straight_server.cancel_order") %></a>
         </td>
       </tr>
     </tbody>

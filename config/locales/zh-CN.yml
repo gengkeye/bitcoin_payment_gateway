@@ -1,0 +1,10 @@
+zh-CN:
+  straight_server:
+    title: '比特币支付'
+    pay_button: '付款'
+    qr_code_title: '扫描二维码'
+    qr_code_description: '到下面这个比特地址'
+    send: '发送'
+    receive: '接收'
+    expire: '订单有效期'
+    cancel_order: '取消订单'
