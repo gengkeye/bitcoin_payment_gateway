@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :payments, only: [:index, :update, :create] do
     collection do
       get 'invoice'
+      get 'exchange_rate'
     end
   end
 

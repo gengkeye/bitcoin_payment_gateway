@@ -1,4 +1,10 @@
 <section class='landing widgets'>
+	<div class="select_locale">
+		<%= form_tag payments_path, id:'locale_setting', method: :get do %>
+		   <%= hidden_field_tag :uid, params[:uid] %>
+		   <%= select_tag('locale', options_for_select([['English', 'en' ], ['中文', 'zh-CN']], params[:locale]), class: "select_locale_input") %>
+		<% end %>
+	</div>
 	<div>
 		<h2><strong><%= I18n.t("straight_server.title")%></strong></h2>
 		<div>
@@ -6,9 +12,9 @@
 				<div class='columnContainer'>
 					<%= form_tag payments_path, method: :post, remote: true, format: 'js',  authenticity_token: true, id: 'btc_form' do %>
 					  <%= hidden_field_tag :uid, params[:uid] %>
-					  <p><input type="text" name="amount" placeholder="BTC" id="amount_input_btc"> 
+					  <p><input type="number" name="amount" placeholder="BTC" maxlength="8" data-unit="btc" id="amount_input_btc">
 					  	 <=> 
-					  	 <input type="text" name="amount" placeholder="CNY" id="amount_input_cny"></p>
+					  	 <input type="number" name="amount" placeholder="CNY" maxlength="10" data-unit='cny' id="amount_input_cny"></p>
 					  <button type="button" class="button_pay"><%= I18n.t("straight_server.pay_button") %></button>
 					<% end %>
 				</div>
@@ -16,19 +22,56 @@
 		</div>
 	</div>
 </section>
-<footer class='dark loaderReveal loaderRevealDelay1000 loaderRevealSpeed600'>
+<footer>
 	<div class='copyright'> A product of skyluster &copy; 2017</div>
 </footer>
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 <%= stylesheet_link_tag    'jquery.countdown', media: 'all', 'data-turbolinks-track' => true %>
 
 <script>
+	$('select[name=locale]').change(function(){
+		$('#locale_setting').submit();
+	});
+
+	$("#amount_input_btc").keyup(function(){
+		var _this = $(this);
+		handle_exchange(_this);
+	})
+
+	$("#amount_input_cny").keyup(function(){
+		var _this = $(this);
+		handle_exchange(_this);
+	})
+
+	function handle_exchange(_this){
+		if(_this.val() == ''){
+			return;
+		}
+		var amount =  parseFloat(_this.val());
+		var from_unit = _this.data('unit');
+		var to_unit = _this.siblings('input').data('unit');
+		if((from_unit == 'btc' && amount < 0.001) || (from_unit == 'cny' && amount < 0.1)){
+			alert('Your input amount is too small.');
+		}
+		$.ajax({
+			url: "<%= exchange_rate_payments_path %>",
+			type: 'get',
+			data: { amount: amount, from_unit: from_unit, to_unit: to_unit},
+			dataType: 'json',
+			success: function(data){
+				_this.siblings('input').val(data['amount']);
+			}
+		})
+	}
+
 	$('.button_pay').click(function(){
 		var amount = parseFloat($('#amount_input_btc').val());
 		if(/^[+-]?\d+(\.\d+)?$/.test(amount)){
-			$('#btc_form').submit();
+	      $('#btc_form').submit();
+		}else if(amount < 0.0001){
+		  alert("Your input amount is too small.");
 		}else{
-			alert("Please insert correct amount.")
+		  alert("Please insert correct amount.");
 		}
 	})
 	function start_to_countdown(){
