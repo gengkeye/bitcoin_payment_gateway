@@ -12,10 +12,10 @@
           <td class="info">
             <p class="pleaseDeposit">
               <%= I18n.t("straight_server.send") %>
-              <b class="amount"><%= @amount %>BTC</b>
+              <b class="amount"><%= @amount || 1.0 %>BTC</b>
               <%= I18n.t("straight_server.qr_code_description") %>
             </p>
-            <textarea class="depositAddressString" readonly="" ><%= @order&.address %></textarea>
+            <textarea class="depositAddressString" readonly="" ><%= @order&.address || '15LHzhiQ7Xxyb6GbJe86YYmaMeTKd1Ue8c' %></textarea>
           </td>
         </tr>
         <tr>
