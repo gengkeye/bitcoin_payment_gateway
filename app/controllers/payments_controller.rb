@@ -23,7 +23,6 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    return render :success
     if params[:amount_of_btc].blank? || params[:amount_of_cny].blank? || params[:uid].blank?
       return render :failed, locals: { error_info: "ERROR: lack of params." }
     end
