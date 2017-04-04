@@ -1,38 +1,40 @@
-<div class="gray new paymentInfo" style="display: block;">
-  <table>
-    <tbody>
-      <tr>
-        <td class="qrcode">
-          <p class="tapOrClickCaption"><%= I18n.t("straight_server.qr_code_title") %></p>
-          <img src="<%= qr_code_path(id: CGI.escape("bitcoin:#{ @order&.address}?amount=#{@amount}")) %>">
-        </td>
-      </tr>
-      <tr>
-        <td class="info">
-          <p class="pleaseDeposit">
-            <%= I18n.t("straight_server.send") %>
-            <b class="amount"><%= @amount %>BTC</b>
-            <%= I18n.t("straight_server.qr_code_description") %>
-          </p>
-          <textarea class="depositAddressString" readonly="" ><%= @order&.address %></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td class="timeLeft">
-          <%= I18n.t("straight_server.expire") %>
-          <b class="value" data-time-left="900"><div id="defaultCountdown"></div></b>
-        </td>
-      </tr>
-      <tr>
-        <td class="progressBar"><img src="https://d3j7m1z1ncor2x.cloudfront.net/assets/processing_gray-c64f9a85ac61d6c7ef86d8bcc79ea9ed.gif" alt="Processing gray"></td>
-      </tr>
-      <tr>
-        <td class="cancel">
-          <a href="#" id="cancel_order"><%= I18n.t("straight_server.cancel_order") %></a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="paymentShow">
+  <div class="gray new paymentInfo" style="display: block;">
+    <table>
+      <tbody>
+        <tr>
+          <td class="qrcode">
+            <p class="tapOrClickCaption"><%= I18n.t("straight_server.qr_code_title") %></p>
+            <img src="<%= qr_code_path(id: CGI.escape("bitcoin:#{ @order&.address}?amount=#{@amount}")) %>">
+          </td>
+        </tr>
+        <tr>
+          <td class="info">
+            <p class="pleaseDeposit">
+              <%= I18n.t("straight_server.send") %>
+              <b class="amount"><%= @amount %>BTC</b>
+              <%= I18n.t("straight_server.qr_code_description") %>
+            </p>
+            <textarea class="depositAddressString" readonly="" ><%= @order&.address %></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="timeLeft">
+            <%= I18n.t("straight_server.expire") %>
+            <b class="value" data-time-left="900"><div id="defaultCountdown"></div></b>
+          </td>
+        </tr>
+        <tr>
+          <td class="progressBar"><img src="https://d3j7m1z1ncor2x.cloudfront.net/assets/processing_gray-c64f9a85ac61d6c7ef86d8bcc79ea9ed.gif" alt="Processing gray"></td>
+        </tr>
+        <tr>
+          <td class="cancel">
+            <a href="#" id="cancel_order"><%= I18n.t("straight_server.cancel_order") %></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 

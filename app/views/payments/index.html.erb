@@ -9,14 +9,16 @@
 		<h2><strong><%= I18n.t("straight_server.title")%></strong></h2>
 		<div>
 			<div>
-				<div class='columnContainer'>
-					<%= form_tag payments_path, method: :post, remote: true, format: 'js',  authenticity_token: true, id: 'btc_form' do %>
-					  <%= hidden_field_tag :uid, params[:uid] %>
-					  <p><input type="number" name="amount" placeholder="BTC" maxlength="8" data-unit="btc" id="amount_input_btc">
-					  	 <=> 
-					  	 <input type="number" name="amount" placeholder="CNY" maxlength="10" data-unit='cny' id="amount_input_cny"></p>
-					  <button type="button" class="button_pay"><%= I18n.t("straight_server.pay_button") %></button>
-					<% end %>
+				<div class="templateContainer">
+					<div class='columnContainer'>
+						<%= form_tag payments_path, method: :post, remote: true, format: 'js',  authenticity_token: true, id: 'btc_form' do %>
+						  <%= hidden_field_tag :uid, params[:uid] %>
+						  <p><input type="number" name="amount_of_btc" placeholder="BTC" maxlength="8" data-unit="btc" id="amount_input_btc">
+						  	 <=> 
+						  	 <input type="number" name="amount_of_cny" placeholder="CNY" maxlength="10" data-unit='cny' id="amount_input_cny"></p>
+						  <button type="button" class="button_pay"><%= I18n.t("straight_server.pay_button") %></button>
+						<% end %>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -50,7 +52,7 @@
 		var amount =  parseFloat(_this.val());
 		var from_unit = _this.data('unit');
 		var to_unit = _this.siblings('input').data('unit');
-		if((from_unit == 'btc' && amount < 0.001) || (from_unit == 'cny' && amount < 0.1)){
+		if((from_unit == 'btc' && amount < 0.001) || (from_unit == 'cny' && amount < 1)){
 			alert('Your input amount is too small.');
 		}
 		$.ajax({
@@ -67,13 +69,16 @@
 	$('.button_pay').click(function(){
 		var amount = parseFloat($('#amount_input_btc').val());
 		if(/^[+-]?\d+(\.\d+)?$/.test(amount)){
-	      $('#btc_form').submit();
-		}else if(amount < 0.0001){
-		  alert("Your input amount is too small.");
+		  if(amount < 0.001){
+		  	alert("Your input amount is too small.");
+		  }else{
+	      	$('#btc_form').submit();	  	
+		  }
 		}else{
 		  alert("Please insert correct amount.");
 		}
 	})
+
 	function start_to_countdown(){
 	  var num = Date.now() + 15*60*1000;
 	  var target_time = new Date(num);

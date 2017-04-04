@@ -74,3 +74,12 @@ section {
     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
+.paymentShow {
+    display: block;
+    text-align: center;
+    background-color: #fff;
+    width: 250px;
+    float: left;
+    margin-left: 720px;
+    padding-left: 15px
+}

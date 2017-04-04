@@ -23,19 +23,20 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    if params[:amount].blank? || params[:uid].blank?
+    return render :success
+    if params[:amount_of_btc].blank? || params[:amount_of_cny].blank? || params[:uid].blank?
       return render :failed, locals: { error_info: "ERROR: lack of params." }
     end
     begin
       # res = HTTParty.get(ENV['STRAIGHT_SERVER_URL'] + 'gateways/1/last_keychain_id')
       # res = Excon.get(ENV['STRAIGHT_SERVER_URL'] + 'gateways/1/last_keychain_id')[:body]
       # last_keychain_id = JSON.parse(res)['last_keychain_id'].to_i
-      order = StraightServerKit::Order.new(amount: params[:amount], callback_data: params[:uid]) # , keychain_id: last_keychain_id + 1
+      order = StraightServerKit::Order.new(amount: params[:amount_of_btc], callback_data: params[:uid]) # , keychain_id: last_keychain_id + 1
       @order = @client.orders.create(order)
     rescue
       return render :failed, locals: { error_info: "ERROR: failed to connect to straight server. Please try again later." }
     end
-    @amount = params[:amount].to_f
+    @amount = params[:amount_of_btc].to_f
     return render :success
   end
 
