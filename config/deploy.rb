@@ -1,4 +1,4 @@
-set :repo_url,        'git@git.nn.com:oldseven/bitcoin_payment_gateway.git' # 'git@119.92.199.199:oldseven/bitcoin_payment_gateway.git'
+set :repo_url,        'git@119.92.199.199:oldseven/bitcoin_payment_gateway.git'
 set :application,     'bitcoin_payment_gateway'
 
 set :puma_threads,    [4, 16]
