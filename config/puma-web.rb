@@ -5,7 +5,7 @@ stdout_redirect "#{app_root}/log/puma.stdout.log", "#{app_root}/log/puma.stderr.
 daemonize true
 port 7000
 if Rails.env.production?
-  workers 4
+  workers 2
   threads 4, 10
 else
   workers 2
