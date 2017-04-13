@@ -22,7 +22,10 @@ set :deploy_via,      :remote_cache
 # puma
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
 set :puma_role, :app
-set :puma_config_file, 'config/puma-web.rb'
+set :puma_config_file, 'config/puma.rb'
+
+set :nginx_sites_available_path, "/etc/nginx/sites-available"
+set :nginx_sites_enabled_path, "/etc/nginx/sites-enabled"
 
 ## Defaults:
 # set :scm,           :git
@@ -32,7 +35,7 @@ set :puma_config_file, 'config/puma-web.rb'
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{config/database.yml config/environments.yml config/secrets.yml}
+set :linked_files, %w{config/database.yml config/environments.yml config/secrets.yml config/puma.rb}
 set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets }
 
 # in order to prevent bundler from overwriting the version controlled binstubs
