@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/seuros/capistrano-puma.git
+  revision: b2b110fd75e8db43cef0400f424821aa8711b006
+  specs:
+    capistrano3-puma (3.1.0)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (~> 3.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -71,10 +80,6 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capistrano3-puma (3.1.0)
-      capistrano (~> 3.7)
-      capistrano-bundler
-      puma (~> 3.4)
     chunky_png (1.3.8)
     coderay (1.1.1)
     coercible (1.0.0)
@@ -264,7 +269,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   capistrano-rvm
-  capistrano3-puma
+  capistrano3-puma!
   coffee-rails (~> 4.1.0)
   cpowell-SyslogLogger
   exception_notification
