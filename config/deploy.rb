@@ -18,7 +18,7 @@ set :nginx_sites_enabled_path, "/etc/nginx/sites-enabled"
 
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{config/database.yml config/environments.yml config/secrets.yml puma.rb}
+set :linked_files, %w{config/database.yml config/environments.yml config/secrets.yml config/redis.yml config/sidekiq.yml}
 set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets }
 
 # in order to prevent bundler from overwriting the version controlled binstubs

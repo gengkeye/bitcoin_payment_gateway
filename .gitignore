@@ -17,4 +17,8 @@
 /tmp
 
 # Ignore database config file
-config/*.yml
+config/redis.yml
+config/secrets.yml
+config/sidekiq.yml
+config/environments.yml
+config/database.yml

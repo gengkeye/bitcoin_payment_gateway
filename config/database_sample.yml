@@ -27,7 +27,7 @@
 
 development:
   adapter: mysql2
-  database: bitapp_dev
+  database: straight_server_db
   encoding: utf8mb4
   username: root
   host: 127.0.0.1
@@ -46,7 +46,7 @@ test:
   password:
 
 production:
-  adapter: postgresql
+  adapter: mysql2
   database: bitapp_db
   encoding: utf8mb4
   username: root
