@@ -4,11 +4,17 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'payments#index'
-  resources :payments, only: [:index, :update, :create] do
+  root 'orders#new'
+  resources :orders, only: [:new, :update, :create] do
     collection do
       get 'invoice'
       get 'exchange_rate'
+    end
+  end
+  
+  resources :withdrawals, only: [:new, :create] do
+    collection do
+      get 'success'
     end
   end
 

@@ -1,33 +1,20 @@
-<section class='landing widgets'>
-	<div class="select_locale">
-		<%= form_tag payments_path, id:'locale_setting', method: :get do %>
-		   <%= hidden_field_tag :uid, params[:uid] %>
-		   <%= select_tag('locale', options_for_select([['English', 'en' ], ['中文', 'zh-CN']], params[:locale]), class: "select_locale_input") %>
-		<% end %>
-	</div>
+<div>
+	<h2><strong><%= I18n.t("straight_server.#{@sub_title}")%></strong></h2>
 	<div>
-		<h2><strong><%= I18n.t("straight_server.title")%></strong></h2>
 		<div>
-			<div>
-				<div class="templateContainer">
-					<div class='columnContainer'>
-						<%= form_tag payments_path, method: :post, remote: true, format: 'js',  authenticity_token: true, id: 'btc_form' do %>
-						  <%= hidden_field_tag :uid, params[:uid] %>
-						  <p><input type="number" name="amount_of_btc" placeholder="BTC" maxlength="8" data-unit="btc" id="amount_input_btc">
-						  	 <=> 
-						  	 <input type="number" name="amount_of_cny" placeholder="CNY" maxlength="10" data-unit='cny' id="amount_input_cny"></p>
-						  <button type="button" class="button_pay"><%= I18n.t("straight_server.pay_button") %></button>
-						<% end %>
-					</div>
+			<div class="templateContainer">
+				<div class='columnContainer'>
+					<%= form_tag @form_path, method: :post, remote: true, format: 'js',  authenticity_token: true, id: 'btc_form' do %>
+					  <p><input type="number" name="amount_of_btc" placeholder="BTC" maxlength="8" data-unit="btc" id="amount_input_btc">
+					  	 <=> 
+					  	 <input type="number" name="amount_of_cny" placeholder="CNY" maxlength="10" data-unit='cny' id="amount_input_cny"></p>
+					  <button type="button" class="button_pay"><%= I18n.t("straight_server.#{@btn_name}") %></button>
+					<% end %>
 				</div>
 			</div>
 		</div>
 	</div>
-</section>
-<footer>
-	<div class='copyright'> A product of skyluster &copy; 2017</div>
-</footer>
-<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+</div>
 <%= stylesheet_link_tag    'jquery.countdown', media: 'all', 'data-turbolinks-track' => true %>
 
 <script>
@@ -56,7 +43,7 @@
 			alert('Your input amount is too small.');
 		}
 		$.ajax({
-			url: "<%= exchange_rate_payments_path %>",
+			url: "<%= exchange_rate_orders_path %>",
 			type: 'get',
 			data: { amount: amount, from_unit: from_unit, to_unit: to_unit},
 			dataType: 'json',
@@ -85,12 +72,4 @@
 	  $('#defaultCountdown').countdown({until: target_time, compact: true, description: '', format: 'HMS'});
 	}
 
-	$("#cancel_order").click(function(){
-	   $.ajax({
-	      url: "<%= payment_path(id: @order&.id || 1 ) %>",
-	      type: 'patch',
-	      data: { uid: "<%= params[:uid] %>"},
-	      dataType: 'jsonp'
-	   })
-	})
 </script>

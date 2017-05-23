@@ -1,7 +1,9 @@
 zh-CN:
   straight_server:
-    title: '比特币支付'
-    pay_button: '付款'
+    pay_with_bitcoin: '比特币支付'
+    withdraw: '比特币提现'
+    pay_btn: '付款'
+    withdraw_btn: '提现'
     qr_code_title: '扫描二维码'
     qr_code_description: '到下面这个比特地址'
     send: '发送'

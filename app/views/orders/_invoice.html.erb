@@ -37,4 +37,12 @@
   </div>
 </div>
 
-
+<script type="text/javascript">
+  $("#cancel_order").click(function(){
+     $.ajax({
+        url: "<%= payment_path(id: @order&.uid) %>",
+        type: 'patch',
+        dataType: 'jsonp'
+     })
+  })  
+</script>
