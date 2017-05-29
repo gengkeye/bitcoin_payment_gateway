@@ -1,0 +1,10 @@
+en:
+  alerts:
+  errors:
+    params_error: "Parameters ERROR."
+    signature_error: "Signature ERROR"
+    update_error: "Failed to update. Please try again later."
+    connect_error: "Failed to connect straight server. Please try again later."
+    create_error: "Failed to create."
+    exchange_error: "Faied to get exchange rate info."
+  notices:

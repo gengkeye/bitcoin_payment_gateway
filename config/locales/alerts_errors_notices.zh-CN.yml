@@ -1,0 +1,10 @@
+en:
+  alerts:
+  errors:
+    params_error: "参数错误"
+    signature_error: "签名错误"
+    update_error: "更新失败，请稍后重试。"
+    connect_error: "链接网关失败，请稍后重试。"
+    create_error: "创建失败，请稍后重试。"
+    exchange_error: "暂时无法获取汇率"
+  notices:
