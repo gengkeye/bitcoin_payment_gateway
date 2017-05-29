@@ -17,7 +17,7 @@ class WithdrawalsController < ApplicationController
   end
 
   def create
-  	return render :failed, locals: { error_info:  } if params[:amount_of_btc].blank?
+  	return render :failed, locals: { error_info:  t("errors.params_error") } if params[:amount_of_btc].blank?
   	@withdrawal =  Withdraw.new(user_id: cookies[:user_id],
                                 gateway_id: cookies[:gateway_id],
                                 customer_uid: cookies[:customer_uid],
