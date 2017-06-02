@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -5,6 +7,9 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'orders#new'
+
+  mount Sidekiq::Web => '/sidekiq'
+
   resources :orders, only: [:new, :update, :create] do
     collection do
       get 'invoice'

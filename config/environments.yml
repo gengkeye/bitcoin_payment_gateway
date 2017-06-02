@@ -3,6 +3,8 @@ development:
   MYSQL_ROOT_PASSWD:
   STRAIGHT_SERVER_SECRET: 'secret'
   STRAIGHT_SERVER_URL: 'http://localhost:9696/'
+  gmail_username: 'dejiegeng@gmail.com'
+  gmail_password: 'Redhat2008'
 
 staging:
   SECRET_KEY_BASE: 4301eac7d691808d9560443e9b1d033eb6f853dfff9530ba8b476997fa3e0b73425872885757f7d2752da38b2b3c6d481353f2407be33b80be0c9ee2ed9db1be

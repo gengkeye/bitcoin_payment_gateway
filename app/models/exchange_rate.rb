@@ -5,6 +5,9 @@ class ExchangeRate < ActiveRecord::Base
 		'Btcchina' => "https://data.btcchina.com/data/ticker?market=btccny",
 		# 'blockchain' => "https://blockchain.info/ticker"
 	}
+	DEPTH_API_URL = "http://api.huobi.com/staticmarket/depth_ltc_150.js"
+	TICKER_API_URL = "http://api.huobi.com/staticmarket/ticker_ltc_json.js"
+
 	class << self
 		def exchange_amount(gateway_id, from_unit, to_unit, amount)
 			if from_unit == 'btc'
@@ -30,6 +33,60 @@ class ExchangeRate < ActiveRecord::Base
 		    	return r["ticker"]["last"] || JSON.parse(r)["ticker"]["last"]
 		    else
 				raise t("errors.exchange_error")
+			end
+		end
+
+		def forecast_ltc_price
+			r = get_depth_r
+			return (total(r, 'price')/total(r, 'amount')).round(2)
+		end
+
+		def total(r, price_or_amount)
+			eval("get_total_#{price_or_amount}(#{r}, 'bids') + get_total_#{price_or_amount}(#{r}, 'asks')")
+		end
+
+		def get_total_price(r, flag)
+			r[flag].inject(0){|sum, i| sum += i.reduce(:*)  } # (i[1] < 500 && i[1] > 10) ? sum += i.reduce(:*) : sum+=0 
+		end
+
+		def get_total_amount(r, flag)
+			r[flag].inject(0){|sum, i| sum += i[1]  } # (i[1] < 500 && i[1] > 10) ? sum += i[1] : sum+=0 
+		end
+
+		def get_last_price
+			r = get_ticker_r
+			return r["ticker"]["last"]
+		end
+
+		def get_depth_r
+			begin
+				return JSON.parse HTTParty.get(DEPTH_API_URL)
+			rescue
+				raise "ERROR"
+			end
+		end
+
+		def get_ticker_r
+			begin
+				return JSON.parse HTTParty.get(TICKER_API_URL)
+			rescue
+				raise "ERROR"
+			end
+		end
+
+		def get_difference
+			get_last_price - forecast_ltc_price
+		end
+
+		def buy_or_sell
+			dprice = get_difference
+			lprice = get_last_price
+			if  dprice >  lprice * 0.01 
+				return 1 # shell
+			elsif dprice < -lprice * 0.01
+				return 2 # buy
+			else
+				return 0 # Don't do anything.
 			end
 		end
 	end
