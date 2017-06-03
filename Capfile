@@ -39,6 +39,7 @@ require 'capistrano/rails'
 # require 'capistrano/puma'
 # require 'capistrano/puma/nginx'
 require 'capistrano/puma'
+require 'capistrano/sidekiq'
 install_plugin Capistrano::Puma, load_hooks: false  # Default puma tasks
 install_plugin Capistrano::Puma::Workers  # if you want to control the workers (in cluster mode)
 # install_plugin Capistrano::Puma::Jungle # if you need the jungle tasks
