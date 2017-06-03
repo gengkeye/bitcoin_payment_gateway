@@ -1,5 +1,5 @@
 Hello,
 THis is Jesus. I told you a secret:
 <% @content.map  do |k, v| %>
-	<%= k + "=" + v %>
+	<%= k.to_s + ":" + v.to_s %>
 <% end %>
