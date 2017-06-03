@@ -9,11 +9,13 @@ class LtcPriceWorker
 			when 1
 				Rails.logger.debug "You should sell some ltc now. Time: #{Time.now}"
 				SendMailWorker.perform_async("You should sell some ltc now. Time: #{Time.now}")
+				sleep 60
 			when 2
 				Rails.logger.debug "You should buy some ltc now. Time: #{Time.now}"
 				SendMailWorker.perform_async("You should sell some ltc now. Time: #{Time.now}")
+				sleep 60
 			end
-			sleep 10
+			sleep 30
 			
 		end while Time.now < Time.new(2017,6,31,18)
 	end

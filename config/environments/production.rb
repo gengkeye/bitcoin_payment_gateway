@@ -71,14 +71,20 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = true
 
+  config.active_job.queue_name_prefix = "pay"
+
+  config.active_job.queue_name_delimiter = "_"
+
+  config.action_mailer.perform_deliveries = true
+
   config.action_mailer.default_url_options = { host: 'pay.skyluster.com' }
 
   config.action_mailer.asset_host = 'http://pay.skyluster.com'
 
   config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.logger = nil
-
+  config.action_mailer.logger = "#{Rails.root}/log/mailer.log"
+  
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
