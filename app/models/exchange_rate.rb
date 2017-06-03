@@ -84,7 +84,8 @@ class ExchangeRate < ActiveRecord::Base
 			lprice = get_last_price
 			r = { 
 				last_price: lprice,
-				forecast_price: fprice
+				forecast_price1000: fprice1000,
+				forecast_price10000: fprice10000,
 			 }
 			if (fprice1000 >  lprice * 1.01) || (fprice10000 <  lprice / 1.01)
 				return r.merge({ suggestion: "You should buy some ltc now. Time: #{Time.now}", flag: 0 })
