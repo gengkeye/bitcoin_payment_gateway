@@ -79,14 +79,19 @@ class ExchangeRate < ActiveRecord::Base
 		end
 
 		def buy_or_sell
-			dprice = get_difference
+			fprice1000 = forecast_ltc_price(0, 1000)
+			fprice10000 = forecast_ltc_price(1000, 20000)
 			lprice = get_last_price
-			if  dprice >  lprice * 0.01 
-				return 1 # shell
-			elsif dprice < -lprice * 0.01
-				return 2 # buy
+			r = { 
+				last_price: lprice,
+				forecast_price: fprice
+			 }
+			if (fprice1000 >  lprice * 1.01) || (fprice10000 <  lprice / 1.01)
+				return r.merge({ suggestion: "You should buy some ltc now. Time: #{Time.now}", flag: 0 })
+			elsif (fprice1000 < lprice / 1.01) || (fprice10000 >  lprice * 1.01)
+				return r.merge({ suggestion: "You should sell some ltc now. Time: #{Time.now}", flag: 1 })
 			else
-				return 0 # Don't do anything.
+				return r.merge({ suggestion: "You should do nothing now. Time: #{Time.now}", flag: 2 })
 			end
 		end
 	end

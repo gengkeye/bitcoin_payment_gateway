@@ -1,3 +1,5 @@
 <p>Hi, Dejie</p>
 <p>I am Jesus. Now I give you a secret. Listen:</p>
-<p><%= @content %></p>
+<% @content.map  do |k, v| %>
+	<p><%= k + ":" + v %></p>
+<% end %>
