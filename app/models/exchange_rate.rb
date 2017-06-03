@@ -36,21 +36,21 @@ class ExchangeRate < ActiveRecord::Base
 			end
 		end
 
-		def forecast_ltc_price
+		def forecast_ltc_price(start_price = 0, end_price = 10000)
 			r = get_depth_r
-			return (total(r, 'price')/total(r, 'amount')).round(2)
+			return (total(r, 'price', start_price, end_price)/total(r, 'amount', start_price, end_price)).round(2)
 		end
 
-		def total(r, price_or_amount)
-			eval("get_total_#{price_or_amount}(#{r}, 'bids') + get_total_#{price_or_amount}(#{r}, 'asks')")
+		def total(r, price_or_amount, start_price, end_price)
+			eval("get_total_#{price_or_amount}(#{r}, 'bids', start_price, end_price) + get_total_#{price_or_amount}(#{r}, 'asks', start_price, end_price)")
 		end
 
-		def get_total_price(r, flag)
-			r[flag].inject(0){|sum, i| sum += i.reduce(:*)  } # (i[1] < 500 && i[1] > 10) ? sum += i.reduce(:*) : sum+=0 
+		def get_total_price(r, flag, start_price, end_price)
+			r[flag].inject(0){|sum, i| (i[1] < end_price && i[1] > start_price ) ? sum += i.reduce(:*) : sum += 0  } # (i[1] < 500 && i[1] > 10) ? sum += i.reduce(:*) : sum+=0 
 		end
 
-		def get_total_amount(r, flag)
-			r[flag].inject(0){|sum, i| sum += i[1]  } # (i[1] < 500 && i[1] > 10) ? sum += i[1] : sum+=0 
+		def get_total_amount(r, flag, start_price, end_price)
+			r[flag].inject(0){|sum, i| (i[1] < end_price && i[1] > start_price) ? sum += i[1] : sum += 0  } # (i[1] < 500 && i[1] > 10) ? sum += i[1] : sum+=0 
 		end
 
 		def get_last_price
