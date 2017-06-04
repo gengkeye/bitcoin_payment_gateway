@@ -4,9 +4,9 @@ class LtcPriceWorker
 	def perform
 		begin
 			params = ExchangeRate.buy_or_sell
-	        @suggestion_email = SuggestionEmail.create!(params)
 			case params[:suggestion]
 			when 0, 1
+	            @suggestion_email = SuggestionEmail.create!(params)
 			    Rails.logger.debug("You should" + SuggestionEmail.suggestions.key(params[:suggestion]) + "some ltc now. Time: #{Time.now}")
 	            LtcMonitorMailer.suggest_mail(@suggestion_email.id).deliver_later
 				sleep 120
