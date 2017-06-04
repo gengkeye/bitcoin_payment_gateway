@@ -1,4 +1,4 @@
-class Withdrawal < ActiveRecord::Base
+class Withdrawal < ApplicationRecord
 	belongs_to :user
 	belongs_to :gateway
 	belongs_to :auditor, class_name: 'users', foreign_key: :auditor_id

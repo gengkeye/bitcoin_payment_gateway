@@ -1,4 +1,4 @@
-class ExchangeRate < ActiveRecord::Base
+class ExchangeRate < ApplicationRecord
 	PROVIDERS = { 
 		'Huobi' => "http://api.huobi.com/staticmarket/ticker_btc_json.js",
 		'Okcoin' => "https://www.okcoin.cn/api/v1/ticker.do?symbol=btc_cny",

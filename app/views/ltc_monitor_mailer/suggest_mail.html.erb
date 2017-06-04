@@ -1,6 +1,8 @@
 <p>Hi, guys!</p>
 <p>I am Jesus. Now I give you a secret. Listen:</p>
-<% @content.map  do |k, v| %>
-	<p><%= k.to_s + ":" + v.to_s %></p>
+<% @@suggestion_email.map  do |k, v| %>
+	<% if v.present? %>
+		<p><%= k.to_s + ":" + v.to_s %></p>
+	<% end %>
 <% end %>
 <p>What will you do? Just follow my advise. ^-^</p>
