@@ -3,16 +3,14 @@ class LtcPriceWorker
 
 	def perform
 		begin
-			r = ExchangeRate.buy_or_sell
-			case r[:flag]
-			when 0
-			    Rails.logger.debug "You should buy some ltc now. Time: #{Time.now}"
-	            LtcMonitorMailer.suggest_mail(r).deliver_later
-				sleep 60
-			when 1
-				Rails.logger.debug "You should sell some ltc now. Time: #{Time.now}"
-	            LtcMonitorMailer.suggest_mail(r).deliver_later
-				sleep 60
+			params = ExchangeRate.buy_or_sell
+	        @suggestion_email = SuggestionEmail.create(params)
+
+			case params[:sugguestion]
+			when 0, 1
+			    Rails.logger.debug("You should" + SuggestionEmail.suggestions.key(params[:sugguestion]) + "some ltc now. Time: #{Time.now}")
+	            LtcMonitorMailer.suggest_mail(@suggestion_email).deliver_later
+				sleep 120
 			when 2
 				Rails.logger.debug "Don't do any thing now. Time: #{Time.now}"
 			end

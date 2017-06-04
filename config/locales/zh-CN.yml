@@ -10,3 +10,6 @@ zh-CN:
     receive: '接收'
     expire: '订单有效期'
     cancel_order: '取消订单'
+  suggestion:
+    buy: '买入'
+    sell: '卖出'

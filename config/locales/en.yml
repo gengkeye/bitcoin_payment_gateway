@@ -31,3 +31,6 @@ en:
     receive: 'Receive'
     expire: 'Order expires in'
     cancel_order: 'Cancel Order'
+  suggestion:
+    buy: 'BUY'
+    sell: 'SELL'

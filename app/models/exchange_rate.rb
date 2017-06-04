@@ -54,7 +54,6 @@ class ExchangeRate < ActiveRecord::Base
 		end
 
 		def get_last_price
-			r = get_ticker_r
 			return r["ticker"]["last"]
 		end
 
@@ -80,19 +79,29 @@ class ExchangeRate < ActiveRecord::Base
 
 		def buy_or_sell
 			fprice1000 = forecast_ltc_price(0, 1000)
-			fprice10000 = forecast_ltc_price(1000, 20000)
-			lprice = get_last_price
+			fprice20000 = forecast_ltc_price(1000, 20000)
+			ticker = get_ticker_r
+			lprice = ticker["ticker"]["last"]
 			r = { 
 				last_price: lprice,
-				forecast_price1000: fprice1000,
-				forecast_price10000: fprice10000,
+				high_price: ticker["ticker"]["high"],
+				low_price: ticker["ticker"]["low"],
+				open_price: ticker["ticker"]["open"],
+				buy_price: ticker["ticker"]["buy"],
+				sell_price: ticker["ticker"]["sell"],
+				fprice1000: fprice1000,
+				fprice20000: fprice20000,
+				symbol: 'ltccny'
 			 }
 			if (fprice1000 >  lprice * 1.01) || (fprice10000 <  lprice / 1.01)
-				return r.merge({ suggestion: "You should buy some ltc now. Time: #{Time.now}", flag: 0 })
+				# buy
+				return r.merge({ suggestion: 0, memo: "You should buy some ltc now." })
 			elsif (fprice1000 < lprice / 1.01) || (fprice10000 >  lprice * 1.01)
-				return r.merge({ suggestion: "You should sell some ltc now. Time: #{Time.now}", flag: 1 })
+				# sell
+				return r.merge({ suggestion: 1, memo: "You should sell some ltc now." })
 			else
-				return r.merge({ suggestion: "You should do nothing now. Time: #{Time.now}", flag: 2 })
+				# none
+				return r.merge({ suggestion:  2, memo: "You should do nothing now" })
 			end
 		end
 	end

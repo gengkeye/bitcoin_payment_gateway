@@ -83,7 +83,6 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
 
-  # config.action_mailer.logger = "#{Rails.root}/log/mailer.log"
   config.action_mailer.logger = nil
   
   config.action_mailer.smtp_settings = {
