@@ -1,5 +1,5 @@
 class SuggestionEmail < ApplicationRecord
-	after_create :update_nums
+	after_create :update_nums, if: ->  { self.suggestion != 'keep' }
 	enum symbol: {
 		ltccny: 0,
 		btccny: 1,
