@@ -93,10 +93,10 @@ class ExchangeRate < ApplicationRecord
 				fprice20000: fprice20000,
 				symbol: 'ltccny'
 			 }
-			if (fprice1000 >  lprice * 1.01) || (fprice10000 <  lprice / 1.01)
+			if (fprice1000 >  lprice * 1.01) || (fprice20000 <  lprice / 1.01)
 				# buy
 				return r.merge({ suggestion: 0, memo: "You should buy some ltc now." })
-			elsif (fprice1000 < lprice / 1.01) || (fprice10000 >  lprice * 1.01)
+			elsif (fprice1000 < lprice / 1.01) || (fprice20000 >  lprice * 1.01)
 				# sell
 				return r.merge({ suggestion: 1, memo: "You should sell some ltc now." })
 			else
