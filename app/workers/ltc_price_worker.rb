@@ -7,7 +7,7 @@ class LtcPriceWorker
 			case params[:suggestion]
 			when 0, 1
 	            @suggestion_email = SuggestionEmail.create!(params)
-			    Rails.logger.debug("You should" + SuggestionEmail.suggestions.key(params[:suggestion]) + "some ltc now. Time: #{Time.now}")
+			    Rails.logger.debug("You should " + SuggestionEmail.suggestions.key(params[:suggestion]) + "some ltc now. Time: #{Time.now}")
 	            LtcMonitorMailer.suggest_mail(@suggestion_email.id).deliver_later
 				sleep 120
 			when 2

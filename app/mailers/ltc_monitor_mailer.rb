@@ -1,6 +1,6 @@
 class LtcMonitorMailer < ApplicationMailer
 	def suggest_mail(email_id)
-		@suggestion_email = SuggestionEmail.find_by(email_id)
+		@suggestion_email = SuggestionEmail.find_by(id: email_id)
 		raise "Email not found." if @content.nil?
 		@correct_nums = @suggestion_email.correct_num
 		@incorrect_nums = @suggestion_email.incorrect_num
