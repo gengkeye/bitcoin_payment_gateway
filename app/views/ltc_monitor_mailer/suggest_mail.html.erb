@@ -1,12 +1,9 @@
 <h3>Hey, man!</h3>
 <br>
 <p>I am Jesus. Now I give you a secret. Listen:</p>
-<p>It's time to <%= @suggestion_email.suggestion %> some of your ltc.</p>
-<p>I have already successfully forecast the price trend of ltc for <strong><%= @correct_nums %></strong> times.</p>
-<p>Though, I failed <strong><%= @incorrect_nums %></strong> times yet. </p>
-<p>But my success rate keeps to: <strong><%= @success_rate %></strong></p>
-<p>Current data:</p>
------------------------------------------------------------------
+<p style="color:red"><i><u>It's time to <strong><%= @suggestion_email.suggestion %></strong> some of your ltc.</u></i></p>
+<p>Detail is as below:</p>
+<p>----------------------------</p>
 <div>
 <% @suggestion_email.as_json.map  do |k, v| %>
 	<% if v.present? %>
@@ -14,9 +11,9 @@
 	<% end %>
 <% end %>
 </div>
------------------------------------------------------------------
+<p>-----------------------------</p>
 <p>What will you do? Just follow my advise. ^-^</p>
-
-Best wishes! Good luck!
--------
-Jesus
+<br>
+<p>Best wishes! Good luck!</p>
+<p>-------</p>
+<p>Jesus</p>
