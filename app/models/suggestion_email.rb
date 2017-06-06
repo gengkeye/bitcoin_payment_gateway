@@ -1,7 +1,7 @@
 class SuggestionEmail < ApplicationRecord
-	after_create :update_nums, if: ->  { self.suggestion != 'keep' }
+	after_create :create_results, if: ->  { self.suggestion != 'keep' }
 
-	has_many :results, class_name: 'SuggestionEmailResult'
+	has_many :results, class_name: 'SuggestionEmailResult', dependent: :destroy
 
 	enum symbol: {
 		ltccny: 0,
@@ -14,9 +14,9 @@ class SuggestionEmail < ApplicationRecord
 		sell: 1,
 		keep: 2
 	}
-   def update_nums
-   	   %w(15 30 60 240 1440).each do |t|
-   			UpdateSuggestionEmailWorker.perform_in(t.minutes, self.id, t)
+   def create_results
+   	   [15, 30, 60, 120].each do |t|
+   			CreateSuggestionEmailResultWorker.perform_in(t.minutes, self.id, t)
    	   end
    end
 end

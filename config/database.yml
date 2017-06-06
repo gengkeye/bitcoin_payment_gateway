@@ -31,7 +31,7 @@ development:
   encoding: utf8mb4
   username: root
   host: 127.0.0.1
-  pool: 5
+  pool: 40
   timeout: 3000
   password:
 
@@ -41,7 +41,7 @@ test:
   database: bitapp_test
   username: root
   host: 127.0.0.1
-  pool: 5
+  pool: 25
   timeout: 3000
   password:
 
@@ -51,6 +51,6 @@ production:
   encoding: utf8mb4
   username: root
   host: 127.0.0.1
-  pool: 40
+  pool: 25
   timeout: 3000
   password:

@@ -54,7 +54,8 @@ class ExchangeRate < ApplicationRecord
 		end
 
 		def get_last_price
-			return r["ticker"]["last"]
+			r = get_ticker_r
+			return r["ticker"]["last"].to_f
 		end
 
 		def get_depth_r
@@ -77,31 +78,23 @@ class ExchangeRate < ApplicationRecord
 			get_last_price - forecast_ltc_price
 		end
 
-		def buy_or_sell
-			fprice1000 = forecast_ltc_price(0, 1000)
-			fprice20000 = forecast_ltc_price(1000, 20000)
-			ticker = get_ticker_r
+		def buy_or_sell(begin_price, end_price)
+			ticker = ExchangeRate.get_ticker_r
 			lprice = ticker["ticker"]["last"]
 			r = { 
-				last_price: lprice,
+				last_price: lprice.to_f.round(2),
 				high_price: ticker["ticker"]["high"],
 				low_price: ticker["ticker"]["low"],
 				open_price: ticker["ticker"]["open"],
 				buy_price: ticker["ticker"]["buy"],
 				sell_price: ticker["ticker"]["sell"],
-				fprice1000: fprice1000,
-				fprice20000: fprice20000,
-				symbol: 'ltccny'
+				symbol: 'ltccny',
+				fbase: begin_price + end_price
 			 }
-			if (fprice1000 >  lprice * 1.01) || (fprice20000 <  lprice / 1.01)
-				# buy
-				return r.merge({ suggestion: 0, memo: "You should buy some ltc now." })
-			elsif (fprice1000 < lprice / 1.01) || (fprice20000 >  lprice * 1.01)
-				# sell
-				return r.merge({ suggestion: 1, memo: "You should sell some ltc now." })
+			if forecast_ltc_price(begin_price, end_price) > lprice
+				return r.merge({ suggestion: 0 })
 			else
-				# none
-				return r.merge({ suggestion:  2, memo: "You should do nothing now" })
+				return r.merge({ suggestion: 1 })
 			end
 		end
 	end
