@@ -16,7 +16,7 @@ set :puma_config_file, 'puma.rb'
 set :nginx_sites_available_path, "/etc/nginx/sites-available"
 set :nginx_sites_enabled_path, "/etc/nginx/sites-enabled"
 
-set :sidekiq_options_per_process, ["--queue pay_suggestion_email_results", "--queue pay_mailers --queue pay_default"]
+set :sidekiq_options_per_process, ["--queue pay_suggestion_email_results", "--queue pay_mailers", "--queue pay_default"]
 
 
 ## Linked Files & Directories (Default None):
