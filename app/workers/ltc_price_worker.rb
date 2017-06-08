@@ -5,13 +5,13 @@ class LtcPriceWorker
 	def perform
 		begin
 		   Rails.logger.debug "Start to create a record to SuggestionEmail now."
-		   [[0, 100], [0, 1000], [0, 20000], [100, 1000], [1000, 20000]].map do |a|
+		   [[0, 100], [0, 1000], [0, 20000], [100, 1000], [1000, 20000], [10000, 20000], [1000, 5000], [5000, 10000]].map do |a|
 		   	    params = ExchangeRate.buy_or_sell(a[0], a[1])
-		   		SuggestionEmail.create!(params)
+		   		SuggestionEmail.create!(params) if params[:suggestion].to_s != '2'
 		   end
 		   Rails.logger.debug "Create successfully. Time: #{Time.now}. Total count: #{SuggestionEmail.count}"
 		   Rails.logger.debug "I'm tired. I need to sleep for 120 seconds"
-		   sleep 300
+		   sleep 900
 		end while Time.now < Time.new(2017,8,31,18)
 
 		# begin

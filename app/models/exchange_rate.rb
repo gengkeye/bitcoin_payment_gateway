@@ -38,7 +38,13 @@ class ExchangeRate < ApplicationRecord
 
 		def forecast_ltc_price(start_price = 0, end_price = 10000)
 			r = get_depth_r
-			return (total(r, 'price', start_price, end_price)/total(r, 'amount', start_price, end_price)).round(2)
+			amount = total(r, 'amount', start_price, end_price)
+			sum = total(r, 'price', start_price, end_price)
+			if amount == 0
+				return 0
+			else
+			    return (sum/amount).to_f.round(2)
+			end
 		end
 
 		def total(r, price_or_amount, start_price, end_price)
@@ -46,11 +52,11 @@ class ExchangeRate < ApplicationRecord
 		end
 
 		def get_total_price(r, flag, start_price, end_price)
-			r[flag].inject(0){|sum, i| (i[1] < end_price && i[1] > start_price ) ? sum += i.reduce(:*) : sum += 0  } # (i[1] < 500 && i[1] > 10) ? sum += i.reduce(:*) : sum+=0 
+			r[flag].inject(0){|sum, i| (i[1] < end_price && i[1] > start_price ) ? sum += i.reduce(:*) : sum += 0  }
 		end
 
 		def get_total_amount(r, flag, start_price, end_price)
-			r[flag].inject(0){|sum, i| (i[1] < end_price && i[1] > start_price) ? sum += i[1] : sum += 0  } # (i[1] < 500 && i[1] > 10) ? sum += i[1] : sum+=0 
+			r[flag].inject(0){|sum, i| (i[1] < end_price && i[1] > start_price) ? sum += i[1] : sum += 0  }
 		end
 
 		def get_last_price
@@ -80,9 +86,9 @@ class ExchangeRate < ApplicationRecord
 
 		def buy_or_sell(begin_price, end_price)
 			ticker = ExchangeRate.get_ticker_r
-			lprice = ticker["ticker"]["last"]
+			last_price = ticker["ticker"]["last"]
 			r = { 
-				last_price: lprice.to_f.round(2),
+				last_price: last_price.to_f.round(2),
 				high_price: ticker["ticker"]["high"],
 				low_price: ticker["ticker"]["low"],
 				open_price: ticker["ticker"]["open"],
@@ -91,7 +97,11 @@ class ExchangeRate < ApplicationRecord
 				symbol: 'ltccny',
 				fbase: begin_price + end_price
 			 }
-			if forecast_ltc_price(begin_price, end_price) > lprice
+
+			fprice = forecast_ltc_price(begin_price, end_price)
+			if fprice == 0
+				return r.merge({ suggestion: 2 })
+			elsif fprice > last_price
 				return r.merge({ suggestion: 0 })
 			else
 				return r.merge({ suggestion: 1 })

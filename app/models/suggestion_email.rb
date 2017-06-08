@@ -15,7 +15,7 @@ class SuggestionEmail < ApplicationRecord
 		keep: 2
 	}
    def create_results
-   	   [15, 30, 60, 120].each do |t|
+   	   [120, 240, 360, 480, 600, 720, 840, 960, 1080, 1200, 1320, 1440].each do |t|
    			CreateSuggestionEmailResultWorker.perform_in(t.minutes, self.id, t)
    	   end
    end
