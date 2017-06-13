@@ -5,8 +5,16 @@ class ExchangeRate < ApplicationRecord
 		'Btcchina' => "https://data.btcchina.com/data/ticker?market=btccny",
 		# 'blockchain' => "https://blockchain.info/ticker"
 	}
-	DEPTH_API_URL = "http://api.huobi.com/staticmarket/depth_ltc_150.js"
-	TICKER_API_URL = "http://api.huobi.com/staticmarket/ticker_ltc_json.js"
+
+	# depth api
+	DEPTH_LTC = "http://api.huobi.com/staticmarket/depth_ltc_150.js"
+
+	# ticker
+	TICKER_LTC = "http://api.huobi.com/staticmarket/ticker_ltc_json.js"
+
+	# detail apis
+	DETAIL_LTC = "http://api.huobi.com/staticmarket/detail_ltc_json.js"
+
 
 	class << self
 		def exchange_amount(gateway_id, from_unit, to_unit, amount)
@@ -36,27 +44,52 @@ class ExchangeRate < ApplicationRecord
 			end
 		end
 
-		def forecast_ltc_price(start_price = 0, end_price = 10000)
+		def forecast_ltc_price(start_amount = 0, end_amount = 10000)
 			r = get_depth_r
-			amount = total(r, 'amount', start_price, end_price)
-			sum = total(r, 'price', start_price, end_price)
-			if amount == 0
-				return 0
-			else
-			    return (sum/amount).to_f.round(2)
+			sum, sum_amount = 0, 0
+
+			(r["bids"] + r["asks"]).each do |i|
+				if i[1] >= start_amount && i[1] <= end_amount
+					sum += i[0] * i[1]
+					sum_amount += i[1]
+				else
+					sum += 0
+					sum_amount += 0
+				end
 			end
+			return (sum / sum_amount).to_f.round(2)
 		end
 
-		def total(r, price_or_amount, start_price, end_price)
-			eval("get_total_#{price_or_amount}(#{r}, 'bids', start_price, end_price) + get_total_#{price_or_amount}(#{r}, 'asks', start_price, end_price)")
-		end
+		def give_suggestion_by_detail(start_amount = 1, end_amount = 10000)
+			sum_value_of_buy, sum_amount_of_buy, sum_value_of_sell, sum_amount_of_sell = 0, 0, 0, 0
+			get_trades.each do |h|
+				if h["amount"] >= start_amount && h["amount"] <= end_amount
+					if h["direction"] == "buy"
+						sum_value_of_buy += h["amount"].to_f * h["price"].to_f
+						sum_amount_of_buy += h["amount"].to_f
+					elsif h["direction"] == "sell"
+						sum_value_of_sell += h["amount"].to_f * h["price"].to_f
+						sum_amount_of_sell += h["amount"].to_f
+					end
+				end
+			end
+			total_value_diff = (sum_value_of_buy - sum_value_of_sell).round(2)
+			amount_diff = (sum_amount_of_buy - sum_amount_of_sell).round(2)
+			suggestion = if amount_diff > 0
+							'buy'
+						 elsif amount_diff == 0
+							'keep'
+						 else
+						 	'sell'
+						 end
+  			r = { amount_sell: sum_amount_of_sell,
+  				  amount_buy: sum_amount_of_buy,
+  				  amount_diff: amount_diff.abs,
+  				  total_value_diff: total_value_diff.abs,
+  				  diff_base: start_amount + end_amount, 
+  				  suggestion: suggestion,}
+  		    return r
 
-		def get_total_price(r, flag, start_price, end_price)
-			r[flag].inject(0){|sum, i| (i[1] < end_price && i[1] > start_price ) ? sum += i.reduce(:*) : sum += 0  }
-		end
-
-		def get_total_amount(r, flag, start_price, end_price)
-			r[flag].inject(0){|sum, i| (i[1] < end_price && i[1] > start_price) ? sum += i[1] : sum += 0  }
 		end
 
 		def get_last_price
@@ -64,9 +97,14 @@ class ExchangeRate < ApplicationRecord
 			return r["ticker"]["last"].to_f
 		end
 
+		def get_trades
+			r = get_detail_r
+			return r["trades"]
+		end
+
 		def get_depth_r
 			begin
-				return JSON.parse HTTParty.get(DEPTH_API_URL)
+				return JSON.parse HTTParty.get(DEPTH_LTC)
 			rescue
 				raise "ERROR"
 			end
@@ -74,7 +112,15 @@ class ExchangeRate < ApplicationRecord
 
 		def get_ticker_r
 			begin
-				return JSON.parse HTTParty.get(TICKER_API_URL)
+				return JSON.parse HTTParty.get(TICKER_LTC)
+			rescue
+				raise "ERROR"
+			end
+		end
+
+		def get_detail_r
+			begin
+				return JSON.parse HTTParty.get(DETAIL_LTC)
 			rescue
 				raise "ERROR"
 			end
@@ -84,28 +130,39 @@ class ExchangeRate < ApplicationRecord
 			get_last_price - forecast_ltc_price
 		end
 
-		def buy_or_sell(begin_price, end_price)
-			ticker = ExchangeRate.get_ticker_r
-			last_price = ticker["ticker"]["last"]
-			r = { 
-				last_price: last_price.to_f.round(2),
+		def buy_or_sell(start_amount = 1, end_amount = 10000, fbase_source)
+			 ticker = get_ticker_r
+             Rails.logger.debug "fbase_source: #{fbase_source}"
+			 if fbase_source == 'commission_sheet'
+			 	fprice = forecast_ltc_price(start_amount, end_amount)
+			 	if fprice == 0
+			 		suggestion = 'keep'
+			 	elsif fprice > ticker["ticker"]["last"].round(2)
+			 		suggestion = 'buy'
+			 	else
+			 		suggestion = 'sell'
+			 	end
+			 else
+			 	fprice = nil
+			 	params = give_suggestion_by_detail(start_amount, end_amount)
+			 	suggestion = params.delete(:suggestion)
+			 	DirectionDataDiff.create!(params)
+			 end
+
+			 r = { 
+				last_price: ticker["ticker"]["last"].round(2),
 				high_price: ticker["ticker"]["high"],
 				low_price: ticker["ticker"]["low"],
 				open_price: ticker["ticker"]["open"],
 				buy_price: ticker["ticker"]["buy"],
 				sell_price: ticker["ticker"]["sell"],
 				symbol: 'ltccny',
-				fbase: begin_price + end_price
+				fbase_source: fbase_source,
+				fbase: start_amount + end_amount,
+				fprice: fprice,
+				suggestion: suggestion,
 			 }
-
-			fprice = forecast_ltc_price(begin_price, end_price)
-			if fprice == 0
-				return r.merge({ suggestion: 2 })
-			elsif fprice > last_price
-				return r.merge({ suggestion: 0 })
-			else
-				return r.merge({ suggestion: 1 })
-			end
+			 return r
 		end
 	end
 end

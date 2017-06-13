@@ -38,6 +38,8 @@ set :deploy_to, "/home/oldseven/app/#{ fetch(:application) }"
 
 set :sidekiq_monit_conf_dir, '/etc/monit.d'
 set :sidekiq_monit_use_sudo, false
+set :sidekiq_options_per_process, ["--queue pay_suggestion_email_results", "--queue pay_mailers", "--queue pay_flpblow", "--queue pay_default"]
+
 
 # Custom SSH Options
 # ==================

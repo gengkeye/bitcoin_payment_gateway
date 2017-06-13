@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
-	include Uid
-
+	include Tid
+	
 	belongs_to :user
 	belongs_to :gateway
 end

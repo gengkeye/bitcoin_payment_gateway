@@ -1,6 +1,6 @@
 class Gateway < ApplicationRecord
-	include Uid
-
+	include HashedId
+	
 	belongs_to :user
 	has_many :orders
 end

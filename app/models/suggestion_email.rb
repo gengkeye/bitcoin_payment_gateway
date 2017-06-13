@@ -12,8 +12,16 @@ class SuggestionEmail < ApplicationRecord
 	enum suggestion: {
 		buy: 0,
 		sell: 1,
-		keep: 2
+		keep: 2,
+		strong_buy: 3,
+		strong_sell: 4
 	}
+
+	enum fbase_source: {
+		commission_sheet: 0,
+		last_orders: 1
+	}
+
    def create_results
    	   [120, 240, 360, 480, 600, 720, 840, 960, 1080, 1200, 1320, 1440].each do |t|
    			CreateSuggestionEmailResultWorker.perform_in(t.minutes, self.id, t)
