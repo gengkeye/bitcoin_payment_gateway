@@ -44,6 +44,7 @@ class ExchangeRate < ApplicationRecord
 			end
 		end
 
+		# forecast by commission_sheet
 		def forecast_ltc_price(start_amount = 0, end_amount = 10000)
 			r = get_depth_r
 			sum, sum_amount = 0, 0
@@ -57,9 +58,19 @@ class ExchangeRate < ApplicationRecord
 					sum_amount += 0
 				end
 			end
-			return (sum / sum_amount).to_f.round(2)
+			ticker = get_ticker_r
+			fprice = sum_amount == 0 ? 0 : (sum / sum_amount).to_f.round(2)
+		    if fprice == 0
+		 		suggestion = 'keep'
+		 	elsif fprice > ticker["ticker"]["last"].round(2)
+		 		suggestion = 'buy'
+		 	else
+		 		suggestion = 'sell'
+		 	end
+			return { suggestion: suggestion, fprice: fprice}
 		end
 
+		# forecast by last_orders
 		def give_suggestion_by_detail(start_amount = 1, end_amount = 10000)
 			sum_value_of_buy, sum_amount_of_buy, sum_value_of_sell, sum_amount_of_sell = 0, 0, 0, 0
 			get_trades.each do |h|
@@ -106,7 +117,7 @@ class ExchangeRate < ApplicationRecord
 			begin
 				return JSON.parse HTTParty.get(DEPTH_LTC)
 			rescue
-				raise "ERROR"
+				retry
 			end
 		end
 
@@ -114,7 +125,7 @@ class ExchangeRate < ApplicationRecord
 			begin
 				return JSON.parse HTTParty.get(TICKER_LTC)
 			rescue
-				raise "ERROR"
+				retry
 			end
 		end
 
@@ -122,31 +133,25 @@ class ExchangeRate < ApplicationRecord
 			begin
 				return JSON.parse HTTParty.get(DETAIL_LTC)
 			rescue
-				raise "ERROR"
+				retry
 			end
 		end
 
 		def get_difference
-			get_last_price - forecast_ltc_price
+			get_last_price - forecast_ltc_price[:fprice]
 		end
 
 		def buy_or_sell(start_amount = 1, end_amount = 10000, fbase_source)
 			 ticker = get_ticker_r
-             Rails.logger.debug "fbase_source: #{fbase_source}"
 			 if fbase_source == 'commission_sheet'
-			 	fprice = forecast_ltc_price(start_amount, end_amount)
-			 	if fprice == 0
-			 		suggestion = 'keep'
-			 	elsif fprice > ticker["ticker"]["last"].round(2)
-			 		suggestion = 'buy'
-			 	else
-			 		suggestion = 'sell'
-			 	end
-			 else
-			 	fprice = nil
-			 	params = give_suggestion_by_detail(start_amount, end_amount)
-			 	suggestion = params.delete(:suggestion)
-			 	DirectionDataDiff.create!(params)
+			 	commission_sheet_params = forecast_ltc_price(start_amount, end_amount)
+			 	fprice = commission_sheet_params[:fprice]
+	            suggestion = commission_sheet_params[:suggestion]
+			 elsif fbase_source == 'last_orders'
+			    last_orders_params = give_suggestion_by_detail(start_amount, end_amount)
+			 	fprice = nil # last_orders don't give fprice
+			 	suggestion = last_orders_params.delete(:suggestion)
+			 	DirectionDataDiff.create!(last_orders_params)
 			 end
 
 			 r = { 
@@ -163,6 +168,20 @@ class ExchangeRate < ApplicationRecord
 				suggestion: suggestion,
 			 }
 			 return r
+		end
+
+		def give_secret
+			commission_sheet_params = buy_or_sell(10000, 20000, 'commission_sheet')
+			last_orders_params = buy_or_sell(1000, 10000, 'last_orders')
+			suggestion = if  commission_sheet_params[:suggestion] == last_orders_params[:suggestion]
+							commission_sheet_params[:suggestion]
+						 else
+							'keep'
+						 end
+
+			return commission_sheet_params.merge({ fbase: commission_sheet_params[:fbase] + last_orders_params[:fbase],
+												   fbase_source: 'both_sources',
+												   suggestion: suggestion})
 		end
 	end
 end

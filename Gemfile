@@ -52,6 +52,8 @@ gem 'redis-objects', '~> 1.2.1'
 # Simple, efficient background processing for Ruby.https://github.com/mperham/sidekiq
 gem 'sidekiq'
 
+gem 'thin'
+
 gem 'httparty'
 gem 'excon'
 gem "typhoeus"

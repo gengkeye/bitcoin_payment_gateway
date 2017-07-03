@@ -11,7 +11,7 @@ class ForecastLtcPriceByLastOrderWorker
        end
        Rails.logger.debug "ForecastLtcPriceByLastOrderWorker end: #{Time.now}"
        Rails.logger.debug "I'm tired. I need to sleep for 120 seconds"
-       sleep 120
+       sleep 900
     end while Time.now < Time.new(2017,8,31,18)
   end
 end

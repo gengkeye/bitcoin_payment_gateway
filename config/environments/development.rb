@@ -18,6 +18,8 @@ Rails.application.configure do
 
   config.action_controller.perform_caching = false
 
+  config.web_console.whitelisted_ips = '10.0.0.7'
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
 
